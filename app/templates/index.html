@@ -54,12 +54,17 @@
         {
           status = 1;
           let beat = new Audio(sound_file[question_list[questionno]]);
+
+          beat.addEventListener("loadstart", () => {
+            console.log("start");
+            document.getElementById("loading_bar").innerHTML="Load Start";
+        });
+
+        beat.addEventListener("canplay", () => {
+            document.getElementById("loading_bar").innerHTML="can play";
+        });
           beat.load();
-          beat.play();
-          beat.onended = function() {
-           
-            };
-          
+          beat.play();         
         }
   
       })
@@ -68,6 +73,9 @@
   </script>
 
   <script>
+    
+    
+
     window.onload = function () {
         question_list = suffle([0,1,2,3]);
         //question_list = [3,1,2,0,4];
@@ -97,7 +105,9 @@
         }
 
 
-      }        
+      }
+      camReset();
+        
     }
 
 
@@ -217,7 +227,10 @@
       
     </a-scene>
 
-
+    <div style="position:absolute; top:0px; left:0px; z-index:1000;" id="loading_bar">
+      abcabc
+    </div>
 
 </body>
 </html>
+
