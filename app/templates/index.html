@@ -21,9 +21,11 @@
     var status=0;
 </script>
 <script>
+  const audioContext = new AudioContext()
     AFRAME.registerComponent('listener_obj', {
     init: function() {
       this.el.addEventListener('click', (e) => {
+        audioContext.resume();
         var objectid = this.el.id;
         console.log(objectid);
         if (objectid=="object1")
