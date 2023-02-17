@@ -10,27 +10,7 @@
     <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
     <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar.js"></script>
-<script>
-    var letter_list = ["bed","hen","men","pen"];
-    var question_list =[];
-    var sound_list= ["soundq1","soundq2","soundq3","soundq4"];
-    var sound_file= ["soundq1","soundq2","soundq3","soundq4"];
-    var questionno = 0;
-    var ans_list = ["","","",""];
-    var answer1 ="";
-    var status=0;
-    var a = document.querySelector('audio');
-    var  audiosprite = {
-      'all': [ 0, 10 ];
-      'correct': [ 0, 2.3 ],
-      'wrong': [ 2.5, 3.8 ],
-      'bed': [ 4.1, 5.4 ],
-      'hen': [ 5.7, 6.8 ],
-      'men': [ 7.1, 8.4 ],
-      'pen': [ 8.6, 9.6 ]
-    }
-    var end = 0;
-</script>
+
 <script>
   const audioContext = new AudioContext()
     AFRAME.registerComponent('listener_obj', {
@@ -66,8 +46,7 @@
         if (objectid=="object6")
         {
           status = 1;
-          var entity = document.getElementById(sound_file[question_list[questionno]]);
-          entity.components.sound.playSound();
+          play(sound_file[question_list[questionno]]);
             
         }
   
@@ -96,21 +75,17 @@
             console.log("correct")
             document.getElementById(b).object3D.visible = true;
 
-            var entity = document.getElementById("soundc");
-            entity.components.sound.playSound();
-            entity.addEventListener("sound-ended", evt => {
-              shownextquestion()
-            })   
+            playend('correct');
+            
+              
+              
         }else{
-          var entity = document.getElementById("soundw");
-            entity.components.sound.playSound();
+            play('wrong');
             console.log("wrong")
             //document.getElementById(c).object3D.visible = true;
         }
 
-
       }
-      camReset();
         
     }
 
@@ -123,8 +98,7 @@
             alert("You have complete the lesson.")
         }else
         {
-          var entity = document.getElementById(sound_file[question_list[questionno]]);
-          entity.components.sound.playSound();    
+            //play(sound_file[question_list[questionno]]); 
         }
         
     }
@@ -240,5 +214,48 @@
 
 
 </body>
+<script>
+    var letter_list = ["bed","hen","men","pen"];
+    var question_list =[];
+    var sound_list= ["bed","hen","men","pen"];
+    var sound_file= ["bed","hen","men","pen"];
+    var questionno = 0;
+    var ans_list = ["","","",""];
+    var answer1 ="";
+    var status=0;
+    var a = document.querySelector('audio');
+    var  audiosprite = {
+      'all': [ 0, 10 ],
+      'correct': [ 0, 2.3 ],
+      'wrong': [ 2.5, 3.8 ],
+      'bed': [ 4.1, 5.4 ],
+      'hen': [ 5.7, 6.8 ],
+      'men': [ 7.1, 8.4 ],
+      'pen': [ 8.6, 9.6 ]
+    }
+    var end = 0;
+
+    a.addEventListener('timeupdate', function(ev) {
+        if (a.currentTime > end) { a.pause(); }
+        },false);
+
+    function play(sound) {
+        if ( audiosprite[sound] ) {
+            a.currentTime = audiosprite[sound][0];
+            end = audiosprite[sound][1];
+            a.play();
+        }
+    }
+
+    function playend(sound) {
+        if ( audiosprite[sound] ) {
+            a.currentTime = audiosprite[sound][0];
+            end = audiosprite[sound][1];
+            a.play();
+            shownextquestion();
+        }
+        
+    }
+</script>
 </html>
 
