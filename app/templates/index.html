@@ -226,8 +226,8 @@
     var a = document.querySelector('audio');
     var  audiosprite = {
       'all': [ 0, 10 ],
-      'correct': [ 0, 2.3 ],
-      'wrong': [ 2.5, 3.8 ],
+      'correct': [ 0, 2.0 ],
+      'wrong': [ 2.5, 3.6 ],
       'bed': [ 4.1, 5.4 ],
       'hen': [ 5.7, 6.8 ],
       'men': [ 7.1, 8.4 ],
@@ -243,6 +243,8 @@
         if ( audiosprite[sound] ) {
             a.currentTime = audiosprite[sound][0];
             end = audiosprite[sound][1];
+            a.play();
+            a.pause();
             a.play();
         }
     }
