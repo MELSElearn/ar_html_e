@@ -13,8 +13,8 @@
 <script>
     var letter_list = ["bed","hen","men","pen"];
     var question_list =[];
-    var sound_list= ["sounda1","soundb1","soundc1","soundd1"];
-    var sound_file= ["static/sound/bed.mp3","static/sound/hen.mp3","static/sound/men.mp3","static/sound/pen.mp3"];
+    var sound_list= ["soundq1","soundq2","soundq3","soundq4"];
+    var sound_file= ["soundq1","soundq2","soundq3","soundq4"];
     var questionno = 0;
     var ans_list = ["","","",""];
     var answer1 ="";
@@ -53,18 +53,9 @@
         if (objectid=="object6")
         {
           status = 1;
-          let beat = new Audio(sound_file[question_list[questionno]]);
-
-          beat.addEventListener("loadstart", () => {
-            console.log("start");
-            document.getElementById("loading_bar").innerHTML="Load Start";
-        });
-
-        beat.addEventListener("canplay", () => {
-            document.getElementById("loading_bar").innerHTML="can play";
-        });
-          beat.load();
-          beat.play();         
+          var entity = document.getElementById(sound_file[question_list[questionno]]);
+          entity.components.sound.playSound();
+            
         }
   
       })
@@ -88,18 +79,18 @@
       {
         if (letter_list[question_list[questionno]] == a)
         {
-            let soundshow = new Audio("static/sound/correct.mp3");
-            soundshow.load();
-            soundshow.play();
+            
             console.log("correct")
             document.getElementById(b).object3D.visible = true;
-            soundshow.onended = function() {
-                shownextquestion();
-            };
+
+            var entity = document.getElementById("soundc");
+            entity.components.sound.playSound();
+            entity.addEventListener("sound-ended", evt => {
+              shownextquestion()
+            })   
         }else{
-           let soundshow = new Audio("static/sound/wrong.mp3");
-            soundshow.load();
-            soundshow.play();
+          var entity = document.getElementById("soundw");
+            entity.components.sound.playSound();
             console.log("wrong")
             //document.getElementById(c).object3D.visible = true;
         }
@@ -119,11 +110,8 @@
             alert("You have complete the lesson.")
         }else
         {
-          let beat = new Audio(sound_file[question_list[questionno]]);
-          beat.load();
-          beat.play();
-          beat.onended = function() {
-          };
+          var entity = document.getElementById(sound_file[question_list[questionno]]);
+          entity.components.sound.playSound();    
         }
         
     }
@@ -158,7 +146,21 @@
             <img id="start" src="static/start.png"> 
             <img id="correct" src="static/correct.png">
             <img id="wrong" src="static/wrong.png">
+            <audio id="sound_1" src="static/sound/bed.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
+            <audio id="sound_2" src="static/sound/hen.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
+            <audio id="sound_3" src="static/sound/men.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
+            <audio id="sound_4" src="static/sound/pen.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
+            <audio id="sound_c" src="static/sound/correct.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
+            <audio id="sound_w" src="static/sound/wrong.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
         </a-assets>
+
+        <a-entity sound="src: #sound_1" id="soundq1"></a-entity>
+        <a-entity sound="src: #sound_2" id="soundq2"></a-entity>
+        <a-entity sound="src: #sound_3" id="soundq3"></a-entity>
+        <a-entity sound="src: #sound_4" id="soundq4"></a-entity>
+
+        <a-entity sound="src: #sound_c" id="soundc"></a-entity>
+        <a-entity sound="src: #sound_w" id="soundw"></a-entity>
 
 
     
@@ -227,9 +229,6 @@
       
     </a-scene>
 
-    <div style="position:absolute; top:0px; left:0px; z-index:1000;" id="loading_bar">
-      abcabc
-    </div>
 
 </body>
 </html>
