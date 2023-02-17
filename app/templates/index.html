@@ -19,6 +19,17 @@
     var ans_list = ["","","",""];
     var answer1 ="";
     var status=0;
+    var a = document.querySelector('audio');
+    var  audiosprite = {
+      'all': [ 0, 10 ];
+      'correct': [ 0, 2.3 ],
+      'wrong': [ 2.5, 3.8 ],
+      'bed': [ 4.1, 5.4 ],
+      'hen': [ 5.7, 6.8 ],
+      'men': [ 7.1, 8.4 ],
+      'pen': [ 8.6, 9.6 ]
+    }
+    var end = 0;
 </script>
 <script>
   const audioContext = new AudioContext()
@@ -148,21 +159,9 @@
             <img id="start" src="static/start.png"> 
             <img id="correct" src="static/correct.png">
             <img id="wrong" src="static/wrong.png">
-            <audio id="sound_1" src="static/sound/bed.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
-            <audio id="sound_2" src="static/sound/hen.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
-            <audio id="sound_3" src="static/sound/men.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
-            <audio id="sound_4" src="static/sound/pen.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
-            <audio id="sound_c" src="static/sound/correct.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
-            <audio id="sound_w" src="static/sound/wrong.mp3" preload="auto" crossorigin="anonymous" poolSize="26"></audio>
         </a-assets>
 
-        <a-entity sound="src: #sound_1" id="soundq1"></a-entity>
-        <a-entity sound="src: #sound_2" id="soundq2"></a-entity>
-        <a-entity sound="src: #sound_3" id="soundq3"></a-entity>
-        <a-entity sound="src: #sound_4" id="soundq4"></a-entity>
 
-        <a-entity sound="src: #sound_c" id="soundc"></a-entity>
-        <a-entity sound="src: #sound_w" id="soundw"></a-entity>
 
 
     
@@ -230,6 +229,14 @@
 
       
     </a-scene>
+
+    <div style="position:absolute; top:0px; left:0px; z-index:1000;" id="loading_bar">
+        <audio preload controls>
+            <source src="static/sound/sulver_2.mp3" type="audio/mp3"></source>
+            <source src="static/sound/sulver_2.ogg" type="audio/ogg"></source>
+        </audio>
+      
+    </div>
 
 
 </body>
