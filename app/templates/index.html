@@ -30,6 +30,20 @@
           background-color: black;
           color: white;
         }
+        .hide {
+        opacity: 0;
+        transition: opacity 1s linear;
+        -webkit-transition: opacity 1s linear;
+        -moz-transition: opacity 1s linear;
+        -o-transition: opacity 1s linear;
+        }
+        .show {
+        opacity: 1;
+        transition: opacity 1s linear;
+        -webkit-transition: opacity 1s linear;
+        -moz-transition: opacity 1s linear;
+        -o-transition: opacity 1s linear;
+        }
         </style>
 <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
@@ -74,7 +88,7 @@
         {
           status = 1;
           play(sound_file[question_list[questionno]]);
-            
+          
         }
   
       })
@@ -95,8 +109,24 @@
             play('end');
             document.getElementById("mainscene").object3D.visible = true;
             document.getElementById("loading_bar").style.visibility="hidden";
+            document.getElementById("mainscene").className = "show";  
+            resetscene(); 
         });
     };
+
+    function resetscene()
+    {
+        correct_count = 0;
+        wrong_count = 0;
+        document.getElementById("objects1_correct").object3D.visible = false;
+        document.getElementById("objects2_correct").object3D.visible = false;
+        document.getElementById("objects3_correct").object3D.visible = false;
+        document.getElementById("objects4_correct").object3D.visible = false;
+        document.getElementById("objects1_wrong").object3D.visible = false;
+        document.getElementById("objects2_wrong").object3D.visible = false;
+        document.getElementById("objects3_wrong").object3D.visible = false;
+        document.getElementById("objects4_wrong").object3D.visible = false;
+    }
 
     function checkanswer(a,b,c)
     {
@@ -107,12 +137,14 @@
             
             console.log("correct")
             document.getElementById(b).object3D.visible = true;
-
+            correct_count = correct_count + 1;
             playend('correct');
             
               
               
         }else{
+            //document.getElementById(c).object3D.visible = true;
+            wrong_count = wrong_count + 1;
             play('wrong');
             console.log("wrong")
             //document.getElementById(c).object3D.visible = true;
@@ -128,7 +160,12 @@
         questionno = questionno+1;
         if (questionno > 3)
         {
-            alert("You have complete the lesson.")
+            alert("You have complete the lesson.");
+            document.getElementById("mainscene").className = "hide";
+            document.getElementById("loading_bar").style.visibility="visible";
+            document.getElementById("button1").innerHTML="Score "+correct_count+"/"+total_count+"<br>Try Again";
+            question_list = suffle([0,1,2,3]);
+            questionno = 0
         }else
         {
             //play(sound_file[question_list[questionno]]); 
@@ -248,10 +285,14 @@
       
     </div>
 
+   
+
 
 </body>
 <script>
-
+    var correct_count = 0;
+    var wrong_count = 0;
+    var total_count = 4;
     var letter_list = ["bed","hen","men","pen"];
     var question_list =[];
     var sound_list= ["bed","hen","men","pen"];
@@ -292,6 +333,7 @@
             a.currentTime = audiosprite[sound][0];
             end = audiosprite[sound][1];
             a.play();
+
             shownextquestion();
         }
         
