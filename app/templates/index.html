@@ -63,6 +63,10 @@
         question_list = suffle([0,1,2,3]);
         //question_list = [3,1,2,0,4];
         questionno = 0
+
+        document.getElementById("button1").addEventListener("click", function () {
+            play('end');
+        });
     };
 
     function checkanswer(a,b,c)
@@ -205,6 +209,7 @@
     </a-scene>
 
     <div style="position:absolute; top:0px; left:0px; z-index:1000;" id="loading_bar">
+        <button  id="button1">Start the game</button>
         <audio preload controls autoplay>
             <source src="static/sound/sulver_2.mp3" type="audio/mp3"></source>
             <source src="static/sound/sulver_2.ogg" type="audio/ogg"></source>
@@ -231,7 +236,8 @@
       'bed': [ 4.1, 5.4 ],
       'hen': [ 5.7, 6.8 ],
       'men': [ 7.1, 8.4 ],
-      'pen': [ 8.6, 9.6 ]
+      'pen': [ 8.6, 9.6 ],
+      'end': [ 9.9, 10 ]
     }
     var end = 0;
 
